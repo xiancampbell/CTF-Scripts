@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+
+import socket
+import re
+
+if __name__ == '__main__':
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect(('<domain.com>', <port>))
+
+    while True:
+        data = b''
+        while True:
+            chunk = client.recv(1024)
+            data += chunk
+            if len(chunk) < 1024:
+                break
+
+        #Receives response from server then inputs direction via arrows
+        command = data.split()
+        command = command[-1]
+        print command
+        if command == "up":
+          payload = str("^").encode('utf-8') + b'\n'
+          client.send(payload)
+        elif command == "down":
+          payload = str("V").encode('utf-8') + b'\n'
+          client.send(payload)
+        elif command == "right":
+          payload = str(">").encode('utf-8') + b'\n'
+          client.send(payload)
+        elif command == "left":
+          payload = str("<").encode('utf-8') + b'\n'
+          client.send(payload)
+        else: break
+client.close()
